@@ -14,7 +14,13 @@ const UserSchema = mongoose.Schema(
 
     email: {
       type: String,
-      required: [true, 'Please enter user email'],
+      required: true,
+      validate: {
+        validator: function (v) {
+          return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+        },
+        message: (props) => `${props.value} non è un indirizzo email valido!`,
+      },
     },
   },
   {
@@ -22,6 +28,4 @@ const UserSchema = mongoose.Schema(
   }
 );
 
-const User = mongoose.model('User', UserSchema);
-
-module.exports = User;
+module.exports = mongoose.model('User', UserSchema);
