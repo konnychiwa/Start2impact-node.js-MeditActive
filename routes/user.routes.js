@@ -24,7 +24,7 @@ router.put('/:id', updateUser);
 // delete a User
 router.delete('/:id', deleteUser);
 
-// se User Intervals
+// see a User Intervals
 router.get('/:id/intervals', getUserIntervals);
 
 module.exports = router;

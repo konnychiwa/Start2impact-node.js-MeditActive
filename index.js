@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const usersRoute = require('./routes/user.routes.js');
 const intervalRoute = require('./routes/interval.routes.js');
+const goalRoute = require('./routes/goal.routes.js');
 const app = express();
 const PORT = 8080;
 
@@ -12,6 +13,7 @@ app.use(express.urlencoded({ extended: false }));
 // route
 app.use('/api/users', usersRoute);
 app.use('/api/intervals', intervalRoute);
+app.use('/api/goals', goalRoute);
 
 app.get('/', (req, res) => {
   res.send('Hello from Node API');
