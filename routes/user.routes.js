@@ -6,6 +6,7 @@ const {
   postUser,
   updateUser,
   deleteUser,
+  getUserIntervals,
 } = require('../controllers/user.controller.js');
 
 // get all Users
@@ -22,5 +23,8 @@ router.put('/:id', updateUser);
 
 // delete a User
 router.delete('/:id', deleteUser);
+
+// se User Intervals
+router.get('/:id/intervals', getUserIntervals);
 
 module.exports = router;

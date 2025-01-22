@@ -1,17 +1,38 @@
 const User = require('../models/user.models.js');
-const Goal = require('../models/goal.models.js');
+const Interval = require('../models/interval.models.js');
 
-// get all Users
-/*
-const getUsers = async (req, res) => {
+// add an Interval
+const postInterval = async (req, res) => {
+  const { startDate, endDate, creatorId } = req.body;
   try {
-    const users = await User.find({});
-    res.status(200).json(users);
+    const creator = await User.findById(creatorId);
+    if (!creator) {
+      return res.status(404).json({ errore: 'The user is incorrect' });
+    }
+    const newInterval = new Interval({
+      startDate,
+      endDate,
+      creatorId,
+    });
+
+    await newInterval.save();
+
+    res.status(200).json({ newInterval });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
+// get all Intervals
+const getIntervals = async (req, res) => {
+  try {
+    const interval = await Interval.find({});
+    res.status(200).json(interval);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+/*
 // get a User
 const getUser = async (req, res) => {
   try {
@@ -23,29 +44,6 @@ const getUser = async (req, res) => {
   }
 };
 */
-// add a Goal
-const postGoal = async (req, res) => {
-  const { name, description, startDate, endDate, creatorId } = req.body;
-  try {
-    const creator = await User.findById(creatorId);
-    if (!creator) {
-      return res.status(404).json({ errore: 'The user is incorrect' });
-    }
-    const newGoal = new Goal({
-      name,
-      description,
-      startDate,
-      endDate,
-      creatorId: creator._id,
-    });
-
-    await newGoal.save();
-
-    res.status(200).json({ newGoal });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
 
 // update a User
 /*
@@ -82,5 +80,6 @@ const deleteUser = async (req, res) => {
 };
 */
 module.exports = {
-  postGoal,
+  postInterval,
+  getIntervals,
 };

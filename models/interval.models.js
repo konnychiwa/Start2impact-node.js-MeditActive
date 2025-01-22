@@ -1,11 +1,7 @@
 const mongoose = require('mongoose');
 
-const GoalSchema = mongoose.Schema(
+const IntervalScehma = mongoose.Schema(
   {
-    name: {
-      type: String,
-      required: true,
-    },
     startDate: {
       type: Date,
       required: true,
@@ -14,10 +10,6 @@ const GoalSchema = mongoose.Schema(
     endDate: {
       type: Date,
       required: true,
-    },
-
-    description: {
-      type: String,
     },
 
     creatorId: {
@@ -31,15 +23,15 @@ const GoalSchema = mongoose.Schema(
   }
 );
 
-GoalSchema.pre('save', function (next) {
+IntervalScehma.pre('save', function (next) {
   if (this.startDate > this.endDate) {
     return next(
       new Error(
-        'The starting date must be before or equal to the ending date of the goal'
+        'The starting date must be before or equal to the ending date of the interval'
       )
     );
   }
   next();
 });
 
-module.exports = mongoose.model('Goal', GoalSchema);
+module.exports = mongoose.model('Interval', IntervalScehma);

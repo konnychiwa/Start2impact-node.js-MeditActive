@@ -1,4 +1,5 @@
 const User = require('../models/user.models.js');
+const Intervals = require('../models/interval.models.js');
 
 // get all Users
 const getUsers = async (req, res) => {
@@ -63,10 +64,23 @@ const deleteUser = async (req, res) => {
   }
 };
 
+// get a User Intervals
+const getUserIntervals = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id);
+    const intervals = await Intervals.find({ user });
+    res.status(200).json(intervals);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getUsers,
   getUser,
   postUser,
   updateUser,
   deleteUser,
+  getUserIntervals,
 };
