@@ -64,7 +64,7 @@ const getInterval = async (req, res) => {
   }
 };
 
-// update a User
+// update an Interval
 const updateInterval = async (req, res) => {
   try {
     const { id } = req.params;

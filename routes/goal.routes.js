@@ -5,6 +5,7 @@ const {
   deleteGoal,
   getGoal,
   getGoals,
+  updateGoal,
 } = require('../controllers/goal.controller.js');
 
 // add a Goal
@@ -18,5 +19,8 @@ router.get('/:id', getGoal);
 
 // see all Goals
 router.get('/', getGoals);
+
+// update a Goal
+router.put('/:id', updateGoal);
 
 module.exports = router;

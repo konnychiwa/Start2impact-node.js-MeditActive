@@ -71,6 +71,23 @@ const deleteGoal = async (req, res) => {
   }
 };
 
+//update a goal
+const updateGoal = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const goal = await Goal.findByIdAndUpdate(id, req.body);
+
+    if (!goal) {
+      return res.status(404).json({ message: 'Goal not found' });
+    }
+
+    const updatedGoal = await Goal.findById(id);
+    res.status(200).json(updatedGoal);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // associate a Goal to an Interval
 const associateGoalInterval = async (req, res) => {
   const { intervalId } = req.params;
@@ -104,4 +121,5 @@ module.exports = {
   associateGoalInterval,
   deleteGoal,
   getGoal,
+  updateGoal,
 };
