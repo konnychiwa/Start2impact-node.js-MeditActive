@@ -15,7 +15,6 @@ const GoalSchema = mongoose.Schema(
     intervalId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Interval',
-      required: true,
     },
   },
   {

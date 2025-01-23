@@ -6,9 +6,9 @@ const {
   getInterval,
   updateInterval,
   deleteInterval,
-  getDatesIntervals,
-  getGoalInterval,
 } = require('../controllers/interval.controller.js');
+
+const { associateGoalInterval } = require('../controllers/goal.controller.js');
 
 // add an Interval
 router.post('/', postInterval);
@@ -26,9 +26,9 @@ router.put('/:id', updateInterval);
 router.delete('/:id', deleteInterval);
 
 // get filtered Interval by Date
-router.get('/', getDatesIntervals);
+router.get('/filter', getInterval);
 
-// get filtered Intervals by Goal
-router.get('/goals', getGoalInterval);
+// associate Goal to Interval
+router.patch('/:intervalId/goals', associateGoalInterval);
 
 module.exports = router;

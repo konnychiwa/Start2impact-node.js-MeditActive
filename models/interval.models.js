@@ -17,6 +17,12 @@ const IntervalScehma = mongoose.Schema(
       ref: 'User',
       required: true,
     },
+    goalId: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Goal',
+      },
+    ],
   },
   {
     timestamps: true,

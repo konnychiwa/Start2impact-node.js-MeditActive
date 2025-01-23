@@ -23,20 +23,34 @@ const postInterval = async (req, res) => {
   }
 };
 
-// See all Intervals
+// See all Intervals or filter by Date
 const getIntervals = async (req, res) => {
+  const { startDate, endDate } = req.query;
+
   try {
-    const intervals = await Interval.find().populate(
+    const filter = {};
+
+    if (startDate) {
+      filter.startDate = { $gte: new Date(startDate) };
+    }
+    if (endDate) {
+      filter.endDate = { $lte: new Date(endDate) };
+    }
+
+    const intervals = await Interval.find(filter).populate(
       'creatorId',
       'name surname email'
     );
+
     res.status(200).json(intervals);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// See an Intervals
+module.exports = { getIntervals };
+
+// See an Interval
 const getInterval = async (req, res) => {
   try {
     const { id } = req.params;
@@ -82,57 +96,10 @@ const deleteInterval = async (req, res) => {
   }
 };
 
-// filter by Date
-const getDatesIntervals = async (req, res) => {
-  const { startDate, endDate } = req.query;
-
-  try {
-    const filter = {};
-
-    if (startDate) {
-      filter.startDate = { $gte: new Date(startDate) }; // Interval that starts after or when is the startDate
-    }
-
-    if (endDate) {
-      filter.endDate = { $lte: new Date(endDate) }; // Interval taht ends before or when is the endDate
-    }
-
-    const intervals = await Interval.find(filter).populate(
-      'creatorId',
-      'name surname email'
-    );
-
-    res.status(200).json({ intervals });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-// filter by Goal
-const getGoalInterval = async (req, res) => {
-  const { goalId } = req.query;
-
-  try {
-    if (!goalId) {
-      return res.status(400).json({ error: 'goalId is required' });
-    }
-
-    const intervals = await Interval.find({ goals: goalId })
-      .populate('goals', 'name description')
-      .populate('creatorId', 'name surname email');
-
-    res.status(200).json({ intervals });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
 module.exports = {
   postInterval,
   getIntervals,
   getInterval,
   updateInterval,
   deleteInterval,
-  getDatesIntervals,
-  getGoalInterval,
 };
